@@ -3,9 +3,9 @@ const request = require('request-promise');
 
 async function GetData(url) {
 
-    let links = await getlinks(url)
+    let links = await getlinks(url).catch(err=>{console.log('LINK FUNC FAIL')})
 
-    let resumes = await scrap(links).then(data=>{return data})
+    let resumes = await scrap(links).then(data=>{return data}).catch(err=>{console.log('SCRAP FUNC FAIL')})
 
     return await Promise.resolve(resumes)
 
@@ -13,7 +13,7 @@ async function GetData(url) {
 
 async function scrap(links){
     let resumes = links.map(link=>{
-        return  getAnimeDetails(link)
+        return  getAnimeDetails(link).catch(err=>{console.log('RESUME FUNC FAIL')})
     })
     return await Promise.all(resumes)
 }
